@@ -120,6 +120,7 @@
      most reliable moment that mobile browsers consider a user gesture. */
   var morseStatus = document.getElementById('morseStatus');
   var morseSurface = document.querySelector('[data-morse-surface]');
+  var morseReplay = document.getElementById('morseReplay');
   if (morseStatus && !reduced) {
     var morseStarted = false;
     var playH = function (replay) {
@@ -145,6 +146,7 @@
           }
         }
         morseStatus.lastChild.nodeValue = 'H · H · H transmitted';
+        if (morseReplay) morseReplay.hidden = false;
       };
       /* Scheduling before resume keeps the audio within the tap gesture. */
       begin();
@@ -153,8 +155,9 @@
       });
     };
     if (morseSurface) morseSurface.addEventListener('pointerdown', function (event) {
-      if (!event.target.closest('a,button')) playH(true);
+      if (!event.target.closest('a,button')) playH(false);
     }, { passive: true });
+    if (morseReplay) morseReplay.addEventListener('click', function () { playH(true); });
   }
 
   /* ---------- STAT COUNTUP ---------- */
