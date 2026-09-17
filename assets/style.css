@@ -475,6 +475,6 @@ footer::before{content:"";position:absolute;top:0;left:20%;right:20%;height:1px;
   .proc{grid-template-columns:1fr}
   .article-grid{padding:44px 0 30px}
   .news{padding:44px 24px}
-  .profile-contact{padding:86px 14px 42px;min-height:100svh}
-  .profile-shell{border-radius:22px}.profile-cover{height:170px}.profile-content{padding:0 16px 18px}.profile-mark{width:80px;height:80px;margin-top:-42px;font-size:1.25rem}.profile-links{grid-template-columns:1fr}.profile-links a{min-height:62px}.profile-actions{margin-bottom:17px}.profile-primary{font-size:.9rem;padding:0 16px}
+  .profile-contact{padding:14px 12px 32px;min-height:100svh;align-items:start}
+  .profile-shell{border-radius:22px}.profile-cover{height:112px}.profile-content{padding:0 16px 18px}.profile-mark{width:72px;height:72px;margin-top:-38px;font-size:1.25rem}.morse-h-mark{grid-template-columns:repeat(2,10px);grid-template-rows:repeat(2,10px);gap:8px}.morse-h-mark span{width:10px;height:10px}.profile-content h2{font-size:2rem;margin-top:6px}.profile-bio{margin:10px auto 17px;font-size:.88rem}.profile-links{grid-template-columns:1fr}.profile-links a{min-height:62px}.profile-actions{margin-bottom:17px}.profile-primary{font-size:.9rem;padding:0 16px}
 }

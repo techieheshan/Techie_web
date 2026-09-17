@@ -115,9 +115,9 @@
     });
   }
 
-  /* ---------- NFC ARRIVAL MORSE: H × 3 ----------
-     An AudioContext is attempted automatically. Mobile browsers can require a
-     first touch before allowing sound, so a tap on the profile surface retries. */
+  /* ---------- NFC MORSE: H × 3 ----------
+     Sound is created directly from the visitor's first card tap. This is the
+     most reliable moment that mobile browsers consider a user gesture. */
   var morseStatus = document.getElementById('morseStatus');
   var morseSurface = document.querySelector('[data-morse-surface]');
   if (morseStatus && !reduced) {
@@ -146,11 +146,12 @@
         }
         morseStatus.lastChild.nodeValue = 'H · H · H transmitted';
       };
-      ctx.resume().then(begin).catch(function () {
+      /* Scheduling before resume keeps the audio within the tap gesture. */
+      begin();
+      ctx.resume().catch(function () {
         morseStatus.lastChild.nodeValue = 'Sound will begin with your next touch';
       });
     };
-    setTimeout(playH, 2150);
     if (morseSurface) morseSurface.addEventListener('pointerdown', function (event) {
       if (!event.target.closest('a,button')) playH(true);
     }, { passive: true });
