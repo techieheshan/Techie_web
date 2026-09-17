@@ -115,12 +115,11 @@
     });
   }
 
-  /* ---------- NFC MORSE: H × 3 ----------
-     The first touch anywhere on the contact profile is deliberately captured
-     as the hidden brand-signature activation. Later touches work normally. */
+  /* ---------- NFC WELCOME + MORSE: H × 3 ---------- */
   var morseStatus = document.getElementById('morseStatus');
-  var morseSurface = document.querySelector('[data-morse-surface]');
   var morseReplay = document.getElementById('morseReplay');
+  var nfcGate = document.getElementById('nfcGate');
+  var nfcEnter = document.getElementById('nfcEnter');
   if (morseStatus && !reduced) {
     var morseStarted = false;
     var playH = function (replay) {
@@ -154,16 +153,15 @@
         morseStatus.lastChild.nodeValue = 'Sound will begin with your next touch';
       });
     };
-    if (morseSurface) {
-      morseSurface.addEventListener('click', function (event) {
-        if (morseStarted) return;
-        /* First tap is consumed, even if it landed on a social link. */
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        playH(false);
-      }, { capture: true });
-    }
+    if (nfcEnter) nfcEnter.addEventListener('click', function () {
+      playH(false);
+      if (nfcGate) nfcGate.classList.add('done');
+    });
     if (morseReplay) morseReplay.addEventListener('click', function () { playH(true); });
+  } else if (nfcEnter) {
+    nfcEnter.addEventListener('click', function () {
+      if (nfcGate) nfcGate.classList.add('done');
+    });
   }
 
   /* ---------- STAT COUNTUP ---------- */
