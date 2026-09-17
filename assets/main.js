@@ -137,12 +137,12 @@
             var osc = ctx.createOscillator();
             var gain = ctx.createGain();
             var at = t + (letter * 1.18) + (dot * 0.19);
-            osc.type = 'sine'; osc.frequency.value = 660;
+            osc.type = 'sine'; osc.frequency.value = 720;
             gain.gain.setValueAtTime(0.0001, at);
-            gain.gain.exponentialRampToValueAtTime(0.16, at + 0.012);
-            gain.gain.exponentialRampToValueAtTime(0.0001, at + 0.115);
+            gain.gain.exponentialRampToValueAtTime(0.42, at + 0.012);
+            gain.gain.exponentialRampToValueAtTime(0.0001, at + 0.15);
             osc.connect(gain); gain.connect(ctx.destination);
-            osc.start(at); osc.stop(at + 0.13);
+            osc.start(at); osc.stop(at + 0.17);
           }
         }
         morseStatus.lastChild.nodeValue = 'H · H · H transmitted';
@@ -155,20 +155,12 @@
       });
     };
     if (morseSurface) {
-      var blockFirstClick = false;
-      morseSurface.addEventListener('pointerdown', function (event) {
+      morseSurface.addEventListener('click', function (event) {
         if (morseStarted) return;
         /* First tap is consumed, even if it landed on a social link. */
         event.preventDefault();
-        event.stopPropagation();
-        blockFirstClick = true;
-        playH(false);
-      }, { capture: true });
-      morseSurface.addEventListener('click', function (event) {
-        if (!blockFirstClick) return;
-        event.preventDefault();
         event.stopImmediatePropagation();
-        blockFirstClick = false;
+        playH(false);
       }, { capture: true });
     }
     if (morseReplay) morseReplay.addEventListener('click', function () { playH(true); });
