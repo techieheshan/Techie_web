@@ -116,8 +116,8 @@
   }
 
   /* ---------- NFC MORSE: H × 3 ----------
-     Sound is created directly from the visitor's first card tap. This is the
-     most reliable moment that mobile browsers consider a user gesture. */
+     The first touch anywhere on the contact profile is deliberately captured
+     as the hidden brand-signature activation. Later touches work normally. */
   var morseStatus = document.getElementById('morseStatus');
   var morseSurface = document.querySelector('[data-morse-surface]');
   var morseReplay = document.getElementById('morseReplay');
@@ -146,7 +146,7 @@
           }
         }
         morseStatus.lastChild.nodeValue = 'H · H · H transmitted';
-        if (morseReplay) morseReplay.hidden = false;
+        if (morseReplay) setTimeout(function () { morseReplay.hidden = false; }, 3300);
       };
       /* Scheduling before resume keeps the audio within the tap gesture. */
       begin();
@@ -154,9 +154,23 @@
         morseStatus.lastChild.nodeValue = 'Sound will begin with your next touch';
       });
     };
-    if (morseSurface) morseSurface.addEventListener('pointerdown', function (event) {
-      if (!event.target.closest('a,button')) playH(false);
-    }, { passive: true });
+    if (morseSurface) {
+      var blockFirstClick = false;
+      morseSurface.addEventListener('pointerdown', function (event) {
+        if (morseStarted) return;
+        /* First tap is consumed, even if it landed on a social link. */
+        event.preventDefault();
+        event.stopPropagation();
+        blockFirstClick = true;
+        playH(false);
+      }, { capture: true });
+      morseSurface.addEventListener('click', function (event) {
+        if (!blockFirstClick) return;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        blockFirstClick = false;
+      }, { capture: true });
+    }
     if (morseReplay) morseReplay.addEventListener('click', function () { playH(true); });
   }
 
